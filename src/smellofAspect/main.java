@@ -279,6 +279,8 @@ public class main extends JFrame {
 							level += Math.pow(2, levelAnd[levelBrackets]);
 						}
 						System.out.println("Complicated Pointcut Level : " + level + "\n");
+						if(level>=10)
+							System.out.println("it's smell.\n");
 					}
 				}
 				System.out.println("---------------\n");

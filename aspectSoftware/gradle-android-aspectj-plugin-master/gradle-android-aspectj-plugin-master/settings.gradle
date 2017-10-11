@@ -1,0 +1,18 @@
+include ':plugin'
+
+def testsRootDir = new File(rootProject.projectDir, 'tests')
+
+include ':codeBasedStyle'
+project(':codeBasedStyle').projectDir = new File(testsRootDir, 'codeBasedStyle')
+
+include ':annotationBasedStyle'
+project(':annotationBasedStyle').projectDir = new File(testsRootDir, 'annotationBasedStyle')
+
+include ':androidAptIntegration'
+project(':androidAptIntegration').projectDir = new File(testsRootDir, 'androidAptIntegration')
+
+include ':declareParents'
+project(':declareParents').projectDir = new File(testsRootDir, 'declareParents')
+
+include ':declareMixin'
+project(':declareMixin').projectDir = new File(testsRootDir, 'declareMixin')

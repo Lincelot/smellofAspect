@@ -1,0 +1,60 @@
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'org.aspectj:aspectjtools:1.8.10'
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion
+    consumerProguardFiles 'consumer-proguard-rules.pro'
+  }
+
+  lintOptions {
+    textReport true
+    textOutput 'stdout'
+  }
+  buildToolsVersion '25.0.2'
+}
+
+dependencies {
+  provided deps.aspectjRuntime
+
+  testCompile deps.junit
+  testCompile deps.truth
+  testCompile deps.mockito
+}
+
+android.libraryVariants.all { variant ->
+  JavaCompile javaCompile = variant.javaCompile
+  javaCompile.doLast {
+    String[] args = [
+        "-showWeaveInfo",
+        "-1.7",
+        "-inpath", javaCompile.destinationDir.toString(),
+        "-aspectpath", javaCompile.classpath.asPath,
+        "-d", javaCompile.destinationDir.toString(),
+        "-classpath", javaCompile.classpath.asPath,
+        "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)
+    ]
+
+    new Main().run(args, new MessageHandler(true));
+    println("----------------------------------------------")
+    println("---------Tracklytics-runtime Weave------------")
+    println("----------------------------------------------")
+  }
+}
+
+apply from: rootProject.file('gradle/maven_push.gradle')

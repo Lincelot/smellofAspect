@@ -1,0 +1,16 @@
+language: android
+jdk: oraclejdk8
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-25.0.2
+    - android-23
+    - android-24
+
+env:
+- GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+
+script:
+ - ./gradlew check

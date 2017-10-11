@@ -1,0 +1,38 @@
+language: android
+jdk: oraclejdk8
+sudo: false
+
+env:
+  matrix:
+    - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
+  global:
+    - ADB_INSTALL_TIMEOUT=5
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-25.0.0
+    - android-24
+    - android-25
+    - sys-img-armeabi-v7a-android-24
+    - extra-android-m2repository
+    - extra-android-support
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+  - $HOME/.gradle
+
+addons:
+  artifacts:
+    paths:
+      - $(git ls-files -o | grep build/outputs | tr "\n" ":")
+
+before_script:
+  - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+
+script: ./gradlew connectedAndroidTest

@@ -1,0 +1,25 @@
+sudo: false
+
+language: java
+
+cache:
+  directories:
+  - $HOME/.m2
+
+install:
+  - mvn clean install -Dmaven.test.skip.exec
+
+script:
+  - mvn test -Pwith-lib,jacoco
+
+jdk:
+  - oraclejdk8
+
+notifications:
+  email:
+    recipients:
+      - antonin.stefanutti@gmail.com
+
+after_success:
+  - mvn jacoco:report -pl impl
+  - mvn -N coveralls:report

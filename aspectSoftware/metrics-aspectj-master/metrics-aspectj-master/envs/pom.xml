@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.astefanutti.metrics.aspectj</groupId>
+        <artifactId>metrics-aspectj-parent</artifactId>
+        <version>1.3-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>metrics-aspectj-envs</artifactId>
+    <name>Metrics AspectJ Environments</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>el</module>
+        <module>se</module>
+    </modules>
+
+    <properties>
+        <XnoInline>false</XnoInline>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>with-deps</id>
+            <properties>
+                <metrics.aspectj.lib>metrics-aspectj-deps</metrics.aspectj.lib>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.astefanutti.metrics.aspectj</groupId>
+                    <artifactId>metrics-aspectj-deps</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>with-lib</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <metrics.aspectj.lib>metrics-aspectj</metrics.aspectj.lib>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.astefanutti.metrics.aspectj</groupId>
+                    <artifactId>metrics-aspectj</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>jacoco</id>
+            <properties>
+                <XnoInline>true</XnoInline>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <destFile>${project.basedir}/../../impl/target/jacoco.exec</destFile>
+                                    <append>true</append>
+                                    <includes>
+                                        <include>io.astefanutti.metrics.aspectj.*</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <complianceLevel>1.6</complianceLevel>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>io.astefanutti.metrics.aspectj</groupId>
+                            <artifactId>${metrics.aspectj.lib}</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <!-- Do not inline the around advise for code coverage -->
+                    <XnoInline>${XnoInline}</XnoInline>
+                    <!-- https://bugs.eclipse.org/bugs/show_bug.cgi?id=418367 -->
+                    <Xset>
+                        <generateStackMaps>true</generateStackMaps>
+                    </Xset>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- test dependencies -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-reflect</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

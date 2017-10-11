@@ -1,0 +1,105 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'nexus'
+apply plugin: 'idea'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+// Got the following error on Android Studio
+// Error:(18, 0) Gradle: A problem occurred evaluating project ':plugin'.
+// > Could not find property 'GROUP' on project ':plugin'.
+if(project.hasProperty('GROUP')) {
+    group = GROUP
+    version = VERSION_NAME
+}
+
+configurations {
+    provided
+}
+
+dependencies {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    compile gradleApi()
+    compile localGroovy()
+
+    provided 'com.android.tools.build:gradle:1.5.0'
+    compile "org.aspectj:aspectjtools:${aspectjVersion}"
+    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+
+    testCompile 'com.android.tools.build:gradle:1.5.0'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.easytesting:fest-assert-core:2.0M10'
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+}
+
+idea {
+    module {
+        scopes.PROVIDED.plus += [configurations.provided]
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'gradle-android-aspectj-plugin'
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.artifactId = 'gradle-android-aspectj-plugin'
+    }
+}
+
+modifyPom {
+    project {
+        name "Android AspectJ Plugin"
+        description POM_DESCRIPTION
+        url POM_URL
+        inceptionYear '2014'
+
+        scm {
+            url POM_SCM_URL
+            connection POM_SCM_CONNECTION
+            developerConnection POM_SCM_DEV_CONNECTION
+        }
+
+        licenses {
+            license {
+                name POM_LICENCE_NAME
+                url POM_LICENCE_URL
+                distribution POM_LICENCE_DIST
+            }
+        }
+
+        developers {
+            developer {
+                id POM_DEVELOPER_ID
+                name POM_DEVELOPER_NAME
+            }
+        }
+
+        organization {
+            name POM_ORGANIZATION_NAME
+            url POM_ORGANIZATION_URL
+        }
+    }
+}

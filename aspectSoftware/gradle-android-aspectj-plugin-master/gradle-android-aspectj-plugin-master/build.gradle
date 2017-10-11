@@ -1,0 +1,28 @@
+apply from: 'ext.gradle'
+
+allprojects {
+    buildscript {
+        repositories {
+            jcenter()
+            mavenCentral()
+        }
+    }
+    
+    dependencies {
+        repositories {
+            jcenter()
+            mavenCentral()
+            mavenLocal()
+        }
+    }
+
+    apply plugin: 'maven'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+
+echoerr () { echo "$@" 1>&2; }
+die () { echoerr "$@" && exit 1; }
+run () { echoerr "$@" && "$@"; }
+mkCp () { ( IFS=: ; echo "$*"; ); }
+
+[[ $# -ge 2 ]] || die "Usage: $(basename $0) <aj file> [source source ...]"
+
+findHomeOf () {
+  local source="$(which $1 2>/dev/null)"
+  [[ -n "$source" ]] || return
+
+  while [[ -h "$source" ]]; do
+    local linked="$(readlink "$source")"
+    local dir="$( cd -P $(dirname "$source") && cd -P $(dirname "$linked") && pwd )"
+    source="$dir/$(basename "$linked")"
+  done
+  ( cd -P "$(dirname "$source")/.." && pwd )
+}
+
+ASPECTJ_HOME=${ASPECTJ_HOME:-$(findHomeOf ajc)}
+[[ -n "$ASPECTJ_HOME" ]] || die "ASPECTJ_HOME must be set."
+
+SCALA_HOME=${SCALA_HOME:-$(findHomeOf scala)}
+[[ -n "$SCALA_HOME" ]] || die "SCALA_HOME must be set."
+
+SCALA_LIBS=$(mkCp $SCALA_HOME/lib/*)
+AJ_WEAVER="$ASPECTJ_HOME/lib/aspectjweaver.jar"
+AJ_RUNTIME="$ASPECTJ_HOME/lib/aspectjrt.jar"
+
+AJ_FILE="$1" && shift
+SCALA_ARGS=( "$@" )
+
+WORKDIR="$(mktemp -dt $(basename $0).XXXXXXXXXX)"
+WORKJAR="$WORKDIR/aspects.jar"
+
+runAjc () {
+  run "$ASPECTJ_HOME/bin/ajc" \
+    -1.5 \
+    -cp "$AJ_RUNTIME:$SCALA_LIBS" \
+    -outxml \
+    -outjar "$WORKJAR" \
+    "$AJ_FILE" 1>&2
+}
+
+runScala () {
+  run "$SCALA_HOME/bin/scalac" \
+    -nobootcp \
+    -J-javaagent:$AJ_WEAVER \
+    -toolcp "$WORKJAR" \
+    -d "$WORKDIR" \
+    "${SCALA_ARGS[@]}"
+}
+
+runAjc && runScala
+

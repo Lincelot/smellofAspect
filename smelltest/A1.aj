@@ -1,9 +1,9 @@
-package pack1;
 
-public aspect A1 extends A {
-	
-	private void bar () {
-		foo = 2;
-	}
-	
+public aspect A1 {
+
+  pointcut m1(): execution(* main(..));
+  
+  before(): m1() {
+    System.err.println("Before main runs");
+  }
 }

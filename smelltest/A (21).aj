@@ -2,10 +2,10 @@ package pkg;
 
 public aspect A {
 
-	pointcut innerpointcut() : execution( * Outer.Inner.myMethod() );
-
-	before() : innerpointcut() {
-	   System.out.println( "executing!" );
+	pointcut p() : execution(* C.method1());
+	 
+	before(): p() {
+		System.out.println(thisJoinPoint);
 	}
-	
+
 }

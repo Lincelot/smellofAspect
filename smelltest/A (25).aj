@@ -1,4 +1,8 @@
 public aspect A {
-	public enum TestType {Pre};
+	
+	pointcut p() : execution(* *.*(..));
+	
+	before() : p() {
+	}
+	
 }
-

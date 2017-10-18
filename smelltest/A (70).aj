@@ -1,10 +1,12 @@
 package pkg;
 
-public privileged aspect A {
+import pkg1.*;
 
-	public static int AbstractClass.F_PRIVILEGED = 0x8000;
+public aspect A {
 
-	before() : execution(int AbstractClass.getModifiers()) {
-		int i = AbstractClass.F_PRIVILEGED;
+	pointcut innerpointcut() : execution( * Outer.myMethod() );
+
+	before() : innerpointcut() {
+	   System.out.println( "executing!" );
 	}
 }

@@ -1,8 +1,18 @@
+package pack;
+
 public aspect A {
+
+	declare @type : C : @Annotation;
 	
-	public static int i = 1;
+	declare parents : (@Annotation *) implements I;
 	
-	before() : execution(* *.*(..)) {
+	public void I.method() {
 	}
 	
+	public static void main(String []argv) {
+		new C().method();
+          if (C.class.getAnnotation(pack.Annotation.class)==null) 
+            throw new RuntimeException("Class C should have @Annotation on it");
+	}
+
 }

@@ -1,5 +1,13 @@
-package pkg.sub;
+package p;
+import java.util.*;
 
-public class Foo {
-    public void foo() {}
+aspect Foo {
+	
+	public int i;
+	
+	public List<T> A<Q,T>.ll;
+	
+	public List<String> A.ls; 
+	
+	public void A<Z,X>.m() {}
 }

@@ -1,7 +1,19 @@
-package pack;
-//comment
-public aspect A {
+package foo;
 
-	declare @type : C : @Annotation;
+public aspect A {
+	
+	pointcut p() : execution(* C.amethod(..));
+	
+	declare warning : p() : "warning";
+	
+	before() : p() {
+	}
+	
+}
+
+class C {
+	
+	public void amethod() {
+	}
 	
 }

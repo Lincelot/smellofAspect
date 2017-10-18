@@ -1,3 +1,6 @@
-public aspect Aspect perthis(staticinitialization(Hello)) {
-  public void foo() {}
+public aspect Aspect {
+	
+	after () returning : Pointcuts.main () && within(HelloWorld) {
+		System.out.println(thisJoinPoint);
+	}
 }

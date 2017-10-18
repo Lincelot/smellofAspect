@@ -1,11 +1,16 @@
+/**
+ * 
+ */
+package pack;
+
 public aspect A {
-
-	before() : execution(* *.*(..)) {}
 	
-}
-
-class C {
+	declare warning : (get(* System.out) || get(* System.err)) : "There should be no printlns"; 
 	
-	public void m() {}
-
+	pointcut p() : call(* C.method2(..));
+	
+	before() : p() {
+		System.out.println("blah");
+	}
+		
 }

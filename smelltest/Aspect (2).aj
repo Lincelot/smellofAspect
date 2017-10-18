@@ -1,5 +1,5 @@
 public aspect Aspect {
-	before () : execution(public static void main(String[])) {
-		System.out.println(thisJoinPoint);
+	before () : within(HelloWorld) {
+		System.err.println(thisJoinPoint);
 	}
 }

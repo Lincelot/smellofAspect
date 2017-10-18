@@ -1,5 +1,6 @@
-aspect A1 {
-  declare parents: C* implements I<String>;
-}
+package p;
 
-interface I<T> {}
+public aspect A1 {
+
+	
+}

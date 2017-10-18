@@ -1,12 +1,16 @@
-package pkg;
+package com.andy;
 
-public aspect A {
+@interface Anno {}
 
-  pointcut p() : call(* foo(..));
-	
-  before() : p() { } 
+aspect A {
+  declare @type: com.andy.C: @Anno;
 
+  int C.i = 5;
 
-  declare warning: call (* goo(..)): "goo called!!";
+  public void C.m() {}
+
+  before(): execution(* C.main(..)) {
+    System.out.println("A:"+thisJoinPointStaticPart);
+  }
+
 }
-

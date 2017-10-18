@@ -1,10 +1,8 @@
+package p;
+
 aspect Foo {
- public <T extends I> void C.mitd(T something) {}
+	
+	int A.i; // removed type vars 
+	
+	public void A.m() {}
 }
-
-class C {
-  <T extends I> void m(T something) {}
-}
-
-interface I {}
-

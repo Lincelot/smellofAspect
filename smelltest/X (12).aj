@@ -1,20 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2010 Contributors
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Andy Clement - Repro test case
- *    Abraham Nevado 
- *******************************************************************************/
+package com.wibble.foo;
+
+import java.lang.annotation.*;
 
 aspect X {
-  after(): execution(* A.m()) {
-    System.out.println(thisJoinPoint.getArgs().toString());
+  public int Class.i;
+  public String Class.getMeSomething() {
+    return "abc";
   }
-  before(): execution(* A.m()) {
-    System.out.println(thisJoinPointStaticPart);
-  }
+  declare parents: Class implements java.io.Serializable;
+  declare @type: Class: @Foobar;
 }
+
+@Retention(RetentionPolicy.RUNTIME)
+@interface Foobar {}

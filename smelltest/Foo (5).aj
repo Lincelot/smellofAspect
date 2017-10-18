@@ -2,7 +2,7 @@ package p;
 
 aspect Foo {
 	
-	int A.i; // removed type vars 
+	int A<X,Y>.i; 
 	
-	public void A<Y,Z>.m() {}
+	public void A<Z,X>.m() {}
 }

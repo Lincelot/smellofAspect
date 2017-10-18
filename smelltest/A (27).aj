@@ -1,10 +1,14 @@
 package pkg;
 
 public aspect A {
+
+  pointcut p() : call(* foo(..));
 	
-	pointcut p() : execution(* *.*(..)) && !within(pkg.*);
-	
-	before() : p() {
-	}
-	
+  before() : p() { } 
+
+
+
+
+  declare warning: call (* goo(..)): "goo called!!";
 }
+

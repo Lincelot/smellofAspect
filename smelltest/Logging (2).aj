@@ -1,7 +1,13 @@
-package sample;
-
 public aspect Logging {
-	declare parents: sample.* && !Logging implements Loggable;
-	public interface Loggable {}
-	public Object Loggable.getLogger() { return null; }
+	
+	pointcut methods () :
+		execution(* *..*(..)) && !within(Logging);
+	
+	before () : methods () {
+		System.err.println("> " + thisJoinPoint.getSignature().toLongString());
+	}
+	
+	after () : methods () {
+		System.err.println("< " + thisJoinPoint.getSignature().toLongString());
+	}
 }

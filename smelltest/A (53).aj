@@ -1,11 +1,23 @@
 package pkg;
 
-public aspect A {
-
-	pointcut p() :  execution(* C.method1());
-	 
-	before(): p() {
-		System.out.println(thisJoinPoint);
+aspect A {
+	
+	before() : execution(* *.*(..)) {
 	}
 	
+	after() : execPCD(){
+	}
+	after() : callPCD(){
+	}
+	pointcut callPCD(): call(* *.*(..));
+	pointcut execPCD(): execution(* *.*(..));
+}
+
+class C {
+	
+	public void m() {
+	}
+	
+    static { 	
+    }	
 }

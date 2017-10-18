@@ -1,15 +1,11 @@
-package pkg;
-
 public aspect A {
+  before(): execution(* *(..)) { System.out.println("abc");}
+  void around(): execution(* *(..)) { proceed();}
 
-	before() : C.pointcutInClass() {	
-	}
-	
-	pointcut pointcutInAspect() : execution(void aMethod());
-	
-	before() : pointcutInAspect() {
-	}
-	
-	public void aMethod() {
-	}
+  void around(): execution(* *(..)) {
+    try {
+      proceed();
+    } catch (Throwable e) {
+    }
+  }
 }

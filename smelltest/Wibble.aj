@@ -1,33 +1,21 @@
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 
+@Aspect
+class Wibble {
 
-public aspect Wibble {
+	@Pointcut("if() && call(public * m*(..)) && target(b)")
+	public static boolean adviseIfMonitoring(Behavior b) {
+	    return true;
+	}
 
-	declare @field: (@III *) Song.*: @Foo;
 	
-	before(): get((@III *) Song.*) {
-		System.out.println();
-	} 
-  public static void main(String []argv) throws Exception {
-    System.out.println(Song.class.getDeclaredField("i").getAnnotation(Foo.class));
-  }
-}
-
-@III
-class XX {
-	
-}
-class Song {
-
-	XX i;
-	
-	void foo() {
-		System.out.println(i);
+	@Around("adviseIfMonitoring(b)")
+	public Object monitorBehaviorPerformance(ProceedingJoinPoint pjp, Behavior b)
+	throws Throwable {
+	    return pjp.proceed();
 	}
 }
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface III {}
-@Retention(RetentionPolicy.RUNTIME)
-@interface Foo {}

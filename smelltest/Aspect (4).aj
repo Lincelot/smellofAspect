@@ -1,9 +1,3 @@
-public aspect Aspect {
+public aspect Aspect perthis(staticinitialization(Hello)) {
 
-	declare @method : public static void main(String[]) : @Annotation;
-
-	before () : execution(public Class*.new()) {
-		System.out.println("? Aspect.before()");
-	}
-	
 }

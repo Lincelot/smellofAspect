@@ -1,21 +1,15 @@
-import java.util.*;
+public aspect TestAspect extends AbstractAspect{
+  public pointcut directCall():
+    execution(void Test.doSayHello(..))
+    && cflow(execution(void Test.sayHello(..)))
+  ;
+  
+  public pointcut badCall():
+  	call(void Test.doSayHello(..)) && withincode(void Test.sayHello(..));
 
-public privileged aspect TestAspect {
-
-  pointcut p(Test t):
-    target(t) &&
-    get(!public Set<Number+> *Set) &&
-    !within(TestAspect);
-
-  Set around(Test t):p(t) {
-    Set s = proceed(t);
-    return s;
+  void noteDirectCall() {
+    sawDirectCall = true;
   }
-
-  public static void main(String []argv) {
-
-    Set<Integer> si = new Test1().foo();
-    Set<Double>  sd = new Test2().foo();
-  }
-
+  
+  public static boolean sawDirectCall = false;
 }

@@ -1,18 +1,15 @@
 package pkg;
 
-import org.aspectj.lang.JoinPoint;
-
 public aspect A {
 
-	pointcut p() : within(C) && execution(* *(..));
+	pointcut p() : call(* pkg.*.*(..));
+
+
+
+
 	
 	before() : p() {
-	}
-	
-	after(): execution(void printParameters(..)) {
-	}
-	
-	static private void printParameters(JoinPoint jp) {
-	}
-	
+		     
+	} 
 }
+

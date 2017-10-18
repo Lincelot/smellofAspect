@@ -1,4 +1,7 @@
-public aspect A {
-	before(): execution(* *(..)) { System.out.println("abc");}
-	void around(): execution(* *(..)) { proceed();}
+package pack1;
+
+public abstract aspect A {
+
+	protected int foo;
+	
 }

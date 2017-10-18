@@ -1,5 +1,8 @@
+package test;
+
 public aspect MyAspect {
-	
-	declare warning : execution(* *(..)) : "a method";
-	
+  after(test.MyAnnotation ma) : set (public String test.MyClass._myField) && @target(ma){
+    System.err.println("pointcut matching : " + ma);
+  }
 }
+

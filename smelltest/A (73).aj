@@ -1,6 +1,8 @@
-public aspect A {
+package pkg;
 
-	pointcut p() : execution(public void C.method1(..));
+public aspect A {
+	
+	pointcut p() : execution(* *.*(..)) && !within(pkg.*);
 	
 	before() : p() {
 	}

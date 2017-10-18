@@ -1,3 +1,13 @@
+
+
 public aspect A {
-  before(): !cflow(adviceexecution()) && get(* *) {System.out.println("A:"+thisJoinPoint);}
+    after () throwing (Throwable th) :  execution(* *(..)) {
+		System.err.println(thisEnclosingJoinPointStaticPart);
+	}
+}
+
+class C1 {
+	public void anotherMethod() {
+		
+	}
 }

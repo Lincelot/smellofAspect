@@ -1,6 +1,14 @@
+package pkg;
+
 public aspect A {
 
-	before() : call(C+.new(..)) {
-	}
+  pointcut p() : call(* foo(..));
 	
+  before() : p() { } 
+
+
+
+
+  declare warning: call (* goo(..)): "goo called!!";
 }
+

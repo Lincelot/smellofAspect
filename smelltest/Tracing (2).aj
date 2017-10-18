@@ -1,6 +1,27 @@
 public aspect Tracing {
+
+    pointcut publicMethods() : execution(public * *(..));
+
+    before() : publicMethods() {
+        System.out.println("Entering "+thisJoinPoint);
+    }
+
+}
+
+class MainClass {
+
 	
-	before () : PointcutLibrary.println() {
-		System.out.println("? " + thisJoinPointStaticPart.getSignature().getName());
+	public static void main(String[] args) {
+		
 	}
+	
+	public String toString() {
+		return super.toString();
+	}
+	
+	
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
 }

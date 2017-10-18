@@ -1,5 +1,7 @@
 aspect X {
-  before(): execution(* f*(..)) {
-    System.out.println("advised");
-  }
+before(): cflow(execution(* main(..))) && execution(* *(..)) {
+  System.out.println("X:"+thisJoinPointStaticPart);
 }
+
+}
+

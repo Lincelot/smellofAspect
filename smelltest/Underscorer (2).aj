@@ -1,8 +1,6 @@
 package a.b.c;
 
 public aspect Underscorer {
-  public Vote._ Vote._()  { return new Vote._(null); }
-
   public static class Vote._ {
     private String string;
     public static class choice {}

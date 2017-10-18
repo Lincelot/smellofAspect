@@ -1,9 +1,15 @@
+package pkg;
 
-public aspect A3 {
+aspect A3 {
+	
+	before() : execution(* *.*(..)) {
+	}
+	
+}
 
-  pointcut m1(): call(* *print*(..));
-  
-  before(): m1() {
-    System.err.println("Calling print");
-  }
+class C {
+	
+	public void method1() {
+	}
+	
 }

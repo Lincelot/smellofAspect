@@ -1,6 +1,7 @@
-import org.aspectj.lang.annotation.*;
 public aspect A1 {
-
-  before(): execution(* foo(..)) { // wont match
-  }
+	
+	pointcut p() : execution(public void C.method2(..));
+	
+	before() : p() {
+	}
 }

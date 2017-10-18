@@ -1,7 +1,9 @@
-package pack;
+package pkg;
 
-public aspect A {
+public privileged aspect A {
 
-	public int C.x = 2;
+	public static int AbstractClass.F_PRIVILEGED = 0x8000;
+	
+	//int i = AbstractClass.F_PRIVILEGED;
 	
 }

@@ -1,6 +1,11 @@
-aspect A  {
-    boolean around() : (target(java.util.HashSet) && call(boolean add(..) ) )
-       {
-         return false;
-       }
-   }
+package pkg;
+
+public aspect A {
+
+	pointcut p() : call(* pkg.*.*(..));
+	
+	before() : p() {
+		    
+	} 
+}
+

@@ -1,20 +1,5 @@
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-@Retention(RetentionPolicy.RUNTIME)
-@interface WebService {}
-
-//@WebService 
-class Foo {
-
-        public Foo() {}
-
+public aspect X {
+  before(): execution(* foo(..)) && !within(X) { 
+	  System.out.println(thisJoinPoint);
+  }
 }
-aspect X {
-
-        after(): execution(*.new(..)) && @within(WebService) {
-
-        }
-}
-
-

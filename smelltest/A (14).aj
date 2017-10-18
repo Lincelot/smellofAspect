@@ -1,16 +1,13 @@
-package com.andy;
+ 
 
-@interface Anno {}
+public aspect A {
+    after () throwing (Throwable th) :  execution(* *(..)) {
+		System.err.println(thisEnclosingJoinPointStaticPart);
+	}
+}
 
-aspect A {
-  declare @type: com.andy.C: @Anno;
-
-  int C.i = 5;
-
-  public void C.m() {}
-
-  before(): execution(* C.main(..)) {
-    System.out.println("A:"+thisJoinPointStaticPart);
-  }
-
+class C1 {
+	public void anotherMethod() {
+		
+	}
 }

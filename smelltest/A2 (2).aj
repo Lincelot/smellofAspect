@@ -1,14 +1,13 @@
-import java.util.*;
+import org.aspectj.lang.annotation.*;
+public aspect A2 {
 
-aspect A2 {
-//  declare precedence: A2,A1;
-
-  public List<Z> BaseClass<Z>.list2;
-
-  after(): execution(* run2(..)) {
-    BaseClass<Integer> bInt = new BaseClass<Integer>();
-    bInt.list2 = new ArrayList<Integer>();
-    bInt.count++;
+  before(): execution(* foo(..)) { // wont match
   }
 
+  @SuppressAjWarnings
+  before(): execution(* foo(..)) { // wont match - but suppressed
+  }
+  @SuppressAjWarnings("Bananas") // this wont prevent the lint advice not match warning
+  before(): execution(* foo(..)) { // wont match
+  }
 }

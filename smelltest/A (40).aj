@@ -1,9 +1,5 @@
-package pack;
+package pkg;
 
 public aspect A {
 
-	pointcut execEverything() : execution(* *.*(..));
-	
-	declare warning : execEverything() : "blah";
-	
 }

@@ -1,13 +1,11 @@
-import org.aspectj.lang.annotation.*;
-public aspect A2 {
+package pack;
 
-  before(): execution(* foo(..)) { // wont match
-  }
+public aspect A2 extends A1 {
 
-  @SuppressAjWarnings
-  before(): execution(* foo(..)) { // wont match - but suppressed
-  }
-  @SuppressAjWarnings("Bananas") // this wont prevent the lint advice not match warning
-  before(): execution(* foo(..)) { // wont match
-  }
+	pointcut p() : execution(* C*.log*(..));
+	
+	before() : p() {
+		i = 2;
+	}
+	
 }

@@ -1,30 +1,16 @@
-public aspect Tracing {
-
-    pointcut publicMethods() : execution(public * *(..));
-
-    before() : publicMethods() {
-        System.out.println("Entering "+thisJoinPoint);
-    }
-    
-    after() : publicMethods() {
-    	System.out.println("Exiting " + thisJoinPoint);
-    }
-}
-
-class MainClass {
-
+public abstract aspect Tracing {
 	
-	public static void main(String[] args) {
-		
+	before (Object obj) : execution(* *(..)) && this(obj) {
+		System.out.println(thisJoinPoint);
 	}
 	
-	public String toString() {
-		return super.toString();
+//	before (Object obj) : execution(* *(..)) && this(obj) {
+	before () : execution(* *(..)) {
+		System.out.println(thisJoinPointStaticPart);
 	}
 	
-	
-	public int hashCode() {
-		return super.hashCode();
+//	before (Object obj) : execution(* *(..)) && this(obj) {
+	before () : execution(* *(..)) && this(Object) {
+		System.out.println(thisEnclosingJoinPointStaticPart);
 	}
-	
 }

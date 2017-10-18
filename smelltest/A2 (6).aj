@@ -1,9 +1,20 @@
+package pkg;
 
 public aspect A2 {
+		
+	pointcut p() : execution(* C2.amethod(..));
+	pointcut p2() : execution(* C2.amethod(..));
+	
+	before() : p() {
+	}
+	
+	before() : p2() {
+	}
+	
+}
 
-  pointcut m1(): execution(* main(..));
-  
-  after(): m1() {
-    System.err.println("After main runs");
-  }
+class C2 {
+	
+	public void amethod() {
+	}
 }

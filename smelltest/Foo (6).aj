@@ -1,8 +1,5 @@
-package p;
+package pkg.sub;
 
-aspect Foo {
-	
-	int A.i; // removed type vars 
-	
-	public void A.m() {}
+public class Foo {
+    public void foo() {}
 }

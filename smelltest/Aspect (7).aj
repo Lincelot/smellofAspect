@@ -1,6 +1,5 @@
 public aspect Aspect {
-	
-	after () returning : Pointcuts.main () && within(HelloWorld) {
-		System.out.println(thisJoinPoint);
-	}
+        void around(): call(* Def.def(..)) {
+                System.out.println("aspect");
+        }
 }

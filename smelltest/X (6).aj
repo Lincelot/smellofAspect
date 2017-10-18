@@ -1,7 +1,6 @@
 aspect X {
-before(): cflow(execution(* main(..))) && execution(* *(..)) {
+before(): execution(* *(..)) {
   System.out.println("X:"+thisJoinPointStaticPart);
 }
-
 }
 

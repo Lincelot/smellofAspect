@@ -1,5 +1,3 @@
-public aspect Aspect {
-        void around(): call(* Def.def(..)) {
-                System.out.println("aspect");
-        }
+public aspect Aspect perthis(staticinitialization(Hello)) {
+  public void foo() {}
 }

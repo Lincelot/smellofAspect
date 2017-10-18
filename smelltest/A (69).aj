@@ -1,5 +1,10 @@
-public abstract aspect A perthis(annotatedClasses()) {
+package pkg;
 
-	pointcut annotatedClasses();
-	
+public aspect A {
+
+	pointcut innerpointcut() : execution( * Outer.myMethod() );
+
+	before() : innerpointcut() {
+	   System.out.println( "executing!" );
+	}
 }

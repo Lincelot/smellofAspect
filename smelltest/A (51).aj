@@ -1,11 +1,10 @@
+package pack;
+
 public aspect A {
-
-	before() : execution(* *.*(..)) {}
 	
+	pointcut p() : call(* C.method2(..));
+	
+	before() : p() {
+	}
+		
 }
-
-//class C {
-//	
-//	public void m() {}
-//
-//}

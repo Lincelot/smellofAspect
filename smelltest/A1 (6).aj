@@ -1,9 +1,6 @@
+package pack;
 
-public aspect A1 {
+public abstract aspect A1 {
 
-  pointcut m1(): execution(* main(..));
-  
-  before(): m1() {
-    System.err.println("Before main runs");
-  }
+	int i = 1;
 }

@@ -1,5 +1,6 @@
-package pkg;
+package pack;
 
-aspect A1 {
+public abstract aspect A1 {
 
+	private int i = 1;
 }

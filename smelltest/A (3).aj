@@ -1,5 +1,10 @@
-package pkg1.monitoring;
+package pkg;
 
-public aspect A {
+public privileged aspect A {
 
+	public static int AbstractClass.F_PRIVILEGED = 0x8000;
+
+	before() : execution(int AbstractClass.getModifiers()) {
+		int i = AbstractClass.F_PRIVILEGED;
+	}
 }

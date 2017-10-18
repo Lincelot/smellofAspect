@@ -1,6 +1,3 @@
-aspect X {
-before(): execution(* *(..)) {
-  System.out.println("X:"+thisJoinPointStaticPart);
+public aspect X {
+  before(): Y.p() {}
 }
-}
-

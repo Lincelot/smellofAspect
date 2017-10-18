@@ -1,12 +1,11 @@
-package com.andy;
+package pkg;
 
-@interface Anno {}
+public aspect A {
 
-aspect A {
-  declare @type: com.andy.C: @Anno;
-
-  before(): execution(* C.main(..)) {
-    System.out.println("AspectA>>"+thisJoinPointStaticPart);
-  }
-
+	point cut p() : execution(* C.method1());
+	 
+	before(): p() {
+		System.out.println(thisJoinPoint);
+	}
+	
 }

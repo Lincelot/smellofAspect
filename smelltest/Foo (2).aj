@@ -1,4 +1,8 @@
+package p;
 
-public abstract class Foo {
-    public abstract pointcut deprecatedCode();
+aspect Foo {
+	
+	int A.i; // removed type vars 
+	
+	public void A<Y,Z>.m() {}
 }

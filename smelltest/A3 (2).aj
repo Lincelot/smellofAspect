@@ -1,18 +1,13 @@
-import java.util.*;
+import org.aspectj.lang.annotation.*;
+public aspect A3 {
 
-aspect A3 {
-
-//  declare precedence: A3,A2;
-
-  public List<Z> BaseClass<Z>.m(List<Z> lz) {
-    return lz;
+  before(): execution(* foo(..)) { // wont match
   }
 
-  after(BaseClass c): execution(* run1(..)) && this(c) {
-    List<String> myLs = new ArrayList<String>();
-    BaseClass<String> bStr = new BaseClass<String>();
-    List<String> ls2 = bStr.m(myLs);
-    bStr.count++;
+  @SuppressAjWarnings("adviceDidNotMatch")
+  before(): execution(* foo(..)) { // wont match - but suppressed
   }
 
+  before(): execution(* foo(..)) { // wont match
+  }
 }

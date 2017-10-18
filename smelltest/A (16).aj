@@ -1,3 +1,11 @@
 public aspect A {
-  before(): !cflow(adviceexecution()) && get(* *) {System.out.println("A:"+thisJoinPointStaticPart);}
+
+	before() : execution(* *.*(..)) {}
+	
 }
+
+//class C {
+//	
+//	public void m() {}
+//
+//}

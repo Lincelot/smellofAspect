@@ -1,7 +1,8 @@
-public aspect A2 {
+package pkg;
 
-	public static class C {
-		public enum TestType {Pre};		
+aspect A2 {
+	
+	before() : execution(* *.*(..)) {
 	}
 	
 }

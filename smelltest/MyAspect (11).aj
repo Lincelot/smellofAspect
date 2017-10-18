@@ -1,12 +1,26 @@
-package test;
-import java.util.List;
+import org.aspectj.lang.annotation.*;
 
-public privileged aspect MyAspect {
-	void Demo.foo(java.util.List<String> x) { }
-        declare @method: (void Demo.foo(..): @Deprecated;
-	declare @type: Demo: @Deprecated;
-	
-        //declare @field: (int Demo.x): @Deprecated;
-        //declare @constructor: (public Demo.new(int)): @Deprecated;
+@Aspect("perthis(call( * SomeClass.someMethod(..)))")
+public class MyAspect {
+
+    @Pointcut("call( * SomeClass.someMethod(..)) && args(j,k, *)")
+    public void pointcut( int j, int k) {}
+
+    @Before("pointcut( j,k)")
+    public void advice( int j, int k ) {  }
+
+  public static void main(String []argv) { new SomeClass().foo();}
+} 
+
+class SomeClass {
+ public void someMethod(int a,int b,int c) {
+ }
+
+  public void foo() {
+    someMethod(1,2,3);
+    someMethod(2,3,4);
+    someMethod(3,4,5);
+  }
 
 }
+

@@ -2,10 +2,10 @@ package pkg;
 
 public aspect A {
 
-	pointcut p() : call(* pkg.*.*(..));
-	
-	before() : p() {
-		    
-	} 
-}
+	pointcut innerpointcut() : execution( * Outer.Inner.myMethod() );
 
+	before() : innerpointcut() {
+	   System.out.println( "executing!" );
+	}
+	
+}

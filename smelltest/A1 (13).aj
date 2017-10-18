@@ -1,10 +1,5 @@
-package pack;
+package pkg;
 
-public abstract aspect A1<Target> pertypewithin(Target) {
+aspect A1 {
 
-	abstract protected pointcut creation();
-
-	Target around() : creation() {
-		return null;
-	}
 }

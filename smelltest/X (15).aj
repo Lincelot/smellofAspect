@@ -1,5 +1,5 @@
 public aspect X {
-  before(): execution(* foo(..)) && !within(X) { 
-	  System.out.println(thisJoinPoint);
-  }
+  declare parents: @Ann * extends I1,Mixin;
+  int Mixin.i;
+  public void Mixin.m() {}
 }

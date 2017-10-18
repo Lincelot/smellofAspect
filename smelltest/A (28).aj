@@ -1,31 +1,12 @@
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+package pkg;
 
-import java.lang.annotation.*;
+public aspect A {
 
-@Retention(RUNTIME)
-@Inherited
-@interface MyAnnotation {}
+  pointcut p() : call(* foo(..));
+	
+  before() : p() { } 
 
-public aspect A perthis(annotatedClasses()) {
-	
-	pointcut annotatedClasses() : @this(MyAnnotation);
-	
-	before(): initialization(*.new(..)) {System.err.println(thisJoinPoint.getSignature().getDeclaringType()); }
-	
-	public static void main(String []argv) {
-	  new Foo();
-	  new Goo();
-	  new Boo();
-	  new Soo();
-	}
+
+  declare warning: call (* goo(..)): "goo called!!";
 }
 
-// yes/no indicates if runtime match expected for staticinitialization
-
-@MyAnnotation class Foo { } // YES
-
-class Goo { }               // NO
-
-@MyAnnotation class Boo { } // YES
-
-class Soo extends Boo { }   // YES

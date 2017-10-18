@@ -1,27 +1,23 @@
+/*
+ * Copyright (c) 2004 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Matthew Webster    initial implementation
+ */
 public aspect Tracing {
 
-    pointcut publicMethods() : execution(public * *(..));
+	private pointcut mainMethod () :
+		execution(public static void main(String[]));
 
-    before() : publicMethods() {
-        System.out.println("Entering "+thisJoinPoint);
-    }
-
-}
-
-class MainClass {
-
-	
-	public static void main(String[] args) {
-		
+	before () : mainMethod() {
+		System.out.println("> " + thisJoinPoint);
 	}
-	
-	public String toString() {
-		return super.toString();
+
+	after () : mainMethod() {
+		System.out.println("< " + thisJoinPoint);
 	}
-	
-	
-	public int hashCode() {
-		return super.hashCode();
-	}
-	
 }

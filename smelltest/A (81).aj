@@ -1,7 +1,5 @@
-package pack;
+package pkg;
 
 public aspect A {
-
-	declare @type : C : @Annotation;
-	
+		
 }

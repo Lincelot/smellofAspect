@@ -1,19 +1,21 @@
-package com.foo.bar;
+import java.util.*;
 
 public privileged aspect TestAspect {
 
-      pointcut TestToArray(Test mt) :
-                target(mt) &&
-                !within(TestAspect);
+  pointcut p(Test t):
+    target(t) &&
+    get(!public Set<Number+> *Set) &&
+    !within(TestAspect);
 
+  Set around(Test t):p(t) {
+    Set s = proceed(t);
+    return s;
+  }
 
-    Object[] around(Test mt, Object[] objs) :
-            TestToArray(mt) &&
-            args(objs) &&
-            execution(Object[] Test.getObjs(Object[])) {
+  public static void main(String []argv) {
 
-        objs = proceed(mt, objs);
-        System.out.println("GO Aspects!");
-        return objs;
-    }
+    Set<Integer> si = new Test1().foo();
+    Set<Double>  sd = new Test2().foo();
+  }
+
 }

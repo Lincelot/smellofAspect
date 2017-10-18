@@ -1,11 +1,7 @@
-public aspect A {
-  before(): execution(* *(..)) { System.out.println("abc");}
-  void around(): execution(* *(..)) { proceed();}
+package pack;
 
-  void around(): execution(* *(..)) {
-    try {
-      proceed();
-    } catch (Exception e) {
-    }
-  }
+public aspect A {
+
+	declare @type : C : @Annotation;
+	
 }

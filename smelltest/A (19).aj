@@ -1,3 +1,11 @@
+package pkg;
+
 public aspect A {
-  before(): !cflow(adviceexecution()) && call(* *(..)) {System.out.println("A:"+thisJoinPointStaticPart);}
+
+	pointcut p() : execution(* C.method1());
+	 
+	before(): p() {
+		System.out.println(thisJoinPoint);
+	}
+	
 }

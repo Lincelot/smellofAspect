@@ -1,10 +1,9 @@
 package pack;
 
 public aspect A {
+
+	pointcut execEverything() : execution(* *.*(..));
 	
-	pointcut p() : call(* C.method2(..));
+	declare warning : execEverything() : "blah";
 	
-	before() : p() {
-	}
-		
 }

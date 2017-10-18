@@ -1,13 +1,8 @@
 package p;
-import java.util.*;
 
 aspect Foo {
 	
-	public int i;
-	
-	public List<T> A<Q,T>.ll;
-	
-	public List<String> A.ls; 
+	int A.i; // removed type vars 
 	
 	public void A<Z,X>.m() {}
 }

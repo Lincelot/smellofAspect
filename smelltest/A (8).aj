@@ -1,23 +1,8 @@
-package pkg;
-
-aspect A {
+public aspect A {
 	
+	public static int i = 1;
 	
 	before() : execution(* *.*(..)) {
 	}
-	after() : callPCD(){
-	}
-	after() : execPCD(){
-	}
-	pointcut callPCD(): call(* *.*(..));
-	pointcut execPCD(): execution(* *.*(..));
-}
-
-class C {
 	
-	public void m() {
-	}
-	
-    static { 	
-    }
 }

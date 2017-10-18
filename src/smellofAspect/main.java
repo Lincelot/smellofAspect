@@ -38,10 +38,10 @@ public class main extends JFrame {
 		try {
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
-			list[0] = "aspectD.aj";
-			// for (int fileQuantity = 0; fileQuantity < list.length;
-			// fileQuantity++) {
-			for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++) {
+			// list[0] = "aspectD.aj";
+			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
+				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
+				// {
 				int a = 0, number = 0;
 				fileList.append(list[fileQuantity]).append(", ");
 				System.out.println(list[fileQuantity] + "\n------------------------");
@@ -170,10 +170,10 @@ public class main extends JFrame {
 		try {
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
-			 for (int fileQuantity = 0; fileQuantity < list.length;
-			 fileQuantity++) {
-//			list[0] = "ActivityController_Roo_Controller.aj";
-//			for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++) {
+			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
+				// list[0] = "ActivityController_Roo_Controller.aj";
+				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
+				// {
 				int a = 0, number = 0;
 				fileList.append(list[fileQuantity]).append(", ");
 				System.out.println(list[fileQuantity] + "\n------------------------");
@@ -204,12 +204,13 @@ public class main extends JFrame {
 				}
 				// data = data.replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
 				String[] dataMethod = data.split("\n");
-				
+
 				for (int i = 0; i < dataMethod.length; i++) {
 					boolean isMethod = false;
 					int levelBrackets = 0, level = 0;
 					String dataNow = "";
-//					System.out.println(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", ""));
+					// System.out.println(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\"
+					// ,/]", ""));
 					if (!dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/ ]", "").equals("")) {
 						if (String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
 								.equals("(")
@@ -217,70 +218,73 @@ public class main extends JFrame {
 										.equals("|")
 								|| String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
 										.equals("&")) {
-							isMethod=true;
+							isMethod = true;
 						}
-						if(!isMethod){
+						if (!isMethod) {
 							System.out.println("it's not need.");
-							break;
-						}
-						System.out.println("Method Pattern : " + dataMethod[i]);
-						dataMethod[i] = dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
-						dataMethod[i] = dataMethod[i].replace("&&", "&");
-						dataMethod[i] = dataMethod[i].replace("||", "|");
-						// System.out.println("test of dataMethod[i]: " +
-						// dataMethod[i]);
-						do {
-							dataNow = dataMethod[i];
-							dataMethod[i] = dataMethod[i].replace("()", "");
-						} while (!dataMethod[i].equals(dataNow));
-						// System.out.println("test1: " + dataMethod[i] + "
-						// number:" + dataMethod[i].length());
-						// System.out.println("test2: " +
-						// dataMethod[i].replaceAll("[)|&]", "") + "number:"
-						// + dataMethod[i].replaceAll("[)|&]", "").length());
-						int[] levelAnd = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
-						int[] levelOr = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
-						// for(int and=0;and<dataMethod[i].replaceAll("[)|&]",
-						// "").length();and++){
-						// System.out.println("123 "+levelOr[and]);
-						// }
-						pattern = Pattern.compile("[()|&]");
-						matcher = pattern.matcher(dataMethod[i]);
-						while (matcher.find()) {
-							if (matcher.group().toString().equals("(")) {
-								levelBrackets++;
-							} else if (matcher.group().toString().equals(")")) {
-								if (levelBrackets == 0) {
-									break;
+							// break;
+						} else {
+							System.out.println("Method Pattern : " + dataMethod[i]);
+							dataMethod[i] = dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
+							dataMethod[i] = dataMethod[i].replace("&&", "&");
+							dataMethod[i] = dataMethod[i].replace("||", "|");
+							// System.out.println("test of dataMethod[i]: " +
+							// dataMethod[i]);
+							do {
+								dataNow = dataMethod[i];
+								dataMethod[i] = dataMethod[i].replace("()", "");
+							} while (!dataMethod[i].equals(dataNow));
+							// System.out.println("test1: " + dataMethod[i] + "
+							// number:" + dataMethod[i].length());
+							// System.out.println("test2: " +
+							// dataMethod[i].replaceAll("[)|&]", "") + "number:"
+							// + dataMethod[i].replaceAll("[)|&]",
+							// "").length());
+							int[] levelAnd = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
+							int[] levelOr = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
+							// for(int
+							// and=0;and<dataMethod[i].replaceAll("[)|&]",
+							// "").length();and++){
+							// System.out.println("123 "+levelOr[and]);
+							// }
+							pattern = Pattern.compile("[()|&]");
+							matcher = pattern.matcher(dataMethod[i]);
+							while (matcher.find()) {
+								if (matcher.group().toString().equals("(")) {
+									levelBrackets++;
+								} else if (matcher.group().toString().equals(")")) {
+									if (levelBrackets == 0) {
+										break;
+									}
+									if (levelOr[levelBrackets] > 0) {
+										level += (levelOr[levelBrackets] + 1) * (Math.pow(2, levelBrackets));
+									}
+									if (levelAnd[levelBrackets] > 0) {
+										level += (Math.pow(2, levelAnd[levelBrackets])) * (Math.pow(2, levelBrackets));
+									}
+									levelOr[levelBrackets] = 0;
+									levelAnd[levelBrackets] = 0;
+									levelBrackets--;
+								} else if (matcher.group().toString().equals("|")) {
+									levelOr[levelBrackets]++;
+								} else if (matcher.group().toString().equals("&")) {
+									levelAnd[levelBrackets]++;
 								}
-								if (levelOr[levelBrackets] > 0) {
-									level += (levelOr[levelBrackets] + 1) * (Math.pow(2, levelBrackets));
-								}
-								if (levelAnd[levelBrackets] > 0) {
-									level += (Math.pow(2, levelAnd[levelBrackets])) * (Math.pow(2, levelBrackets));
-								}
-								levelOr[levelBrackets] = 0;
-								levelAnd[levelBrackets] = 0;
-								levelBrackets--;
-							} else if (matcher.group().toString().equals("|")) {
-								levelOr[levelBrackets]++;
-							} else if (matcher.group().toString().equals("&")) {
-								levelAnd[levelBrackets]++;
+								// System.out.println("Now Level : " + level );
+								// System.out.println("matcher:" +
+								// matcher.group().toString());
+								// System.out.println("matcher:"+matcher);
 							}
-							// System.out.println("Now Level : " + level );
-							// System.out.println("matcher:" +
-							// matcher.group().toString());
-							// System.out.println("matcher:"+matcher);
+							if (levelOr[0] > 0) {
+								level += levelOr[levelBrackets] + 1;
+							}
+							if (levelAnd[0] > 0) {
+								level += Math.pow(2, levelAnd[levelBrackets]);
+							}
+							System.out.println("Complicated Pointcut Level : " + level + "\n");
+							if (level >= 10)
+								System.out.println("it's smell.\n");
 						}
-						if (levelOr[0] > 0) {
-							level += levelOr[levelBrackets] + 1;
-						}
-						if (levelAnd[0] > 0) {
-							level += Math.pow(2, levelAnd[levelBrackets]);
-						}
-						System.out.println("Complicated Pointcut Level : " + level + "\n");
-						if(level>=10)
-							System.out.println("it's smell.\n");
 					}
 				}
 				System.out.println("---------------\n");

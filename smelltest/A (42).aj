@@ -1,9 +1,8 @@
-package pack;
-
 public aspect A {
+	declare @type : C : @MyAnnotation;
+}
+@interface MyAnnotation {	
+}
 
-	pointcut p1() : execution(* *.*(..));
-	
-	before() : p1() {}
-	
+class C {
 }

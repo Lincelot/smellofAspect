@@ -1,7 +1,7 @@
-package pack1;
-
-public abstract aspect A {
-
-	protected int foo;
-	
+aspect A {
+  public static class C._ {
+    public void printmessages() {
+      System.out.println("message");
+    }
+  }
 }

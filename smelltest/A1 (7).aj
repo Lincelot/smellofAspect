@@ -1,7 +1,11 @@
-public aspect A1 {
-	
-	pointcut p() : execution(public void C.method2(..));
-	
-	before() : p() {
-	}
+package pack;
+
+public abstract aspect A1<Target> pertypewithin(Target) {
+
+	abstract protected pointcut creation();
+
+//	Target around() : creation() {
+//		return null;
+//	}
 }
+

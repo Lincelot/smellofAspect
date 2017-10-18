@@ -1,7 +1,10 @@
-aspect A {
-  public static class C._ {
-    public void printmessages() {
-      System.out.println("message");
-    }
-  }
+package pkg;
+
+public aspect A {
+
+	pointcut p() : execution(public void C.method2(..));
+	
+	before() : p() {
+	}
+	
 }

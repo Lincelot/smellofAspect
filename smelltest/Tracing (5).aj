@@ -1,23 +1,25 @@
-/*
- * Copyright (c) 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Matthew Webster    initial implementation
- */
 public aspect Tracing {
 
-	private pointcut mainMethod () :
-		execution(public static void main(String[]));
+	private int _callDepth = -1;
 
-	before () : mainMethod() {
-		System.out.println("> " + thisJoinPoint);
-	}
+    pointcut tracePoints() : !within(Tracing);
 
-	after () : mainMethod() {
-		System.out.println("< " + thisJoinPoint);
-	}
+    before() : tracePoints() {
+            _callDepth++; print("Before", thisJoinPoint);
+    }
+
+    after() : tracePoints() {
+            print("After", thisJoinPoint);
+            _callDepth--;
+    }
+
+    private void print(String prefix, Object message) {
+            for(int i = 0, spaces = _callDepth * 2; i < spaces; i++) {
+                    //MyPrint.print(" ","");
+            }
+
+            System.out.println(prefix + ": " + message);
+    }
+
+	
 }

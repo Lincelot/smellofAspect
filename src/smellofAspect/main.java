@@ -34,7 +34,220 @@ public class main extends JFrame {
 		// TODO Auto-generated method stub
 		String folderPath = "smelltest/";
 		StringBuffer fileList = new StringBuffer();
+		detectionLaxPointcut(folderPath, fileList);
+		detectionDispersedPointcut();
+		detectionComplicatedPointcut(folderPath, fileList);
+		detectionHighControlCoupledAspect();
+		detectionCohesionAspect();
 
+		user("test1", "test");
+		cc(0);
+		ccc(0);
+
+		// main frame = new main();
+		// frame.setTitle("KeyEventDemo");
+		// frame.setSize(500, 500);
+		// frame.setLocationRelativeTo(null);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setVisible(true);
+
+		try {
+			// Robot robot = new Robot();
+			// robot.delay(5000);
+			// for (int num = 0; num < 400; num++) {
+			// robot.delay(10000);
+			// robot.keyPress(KeyEvent.VK_0);
+			// robot.keyRelease(KeyEvent.VK_0);
+			// robot.delay(5000);
+			// robot.keyPress(KeyEvent.VK_ENTER );
+			// robot.keyRelease(KeyEvent.VK_ENTER );
+			// robot.delay(1000);
+
+			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_5 );
+			// robot.keyRelease(KeyEvent.VK_5 );
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_0 );
+			// robot.keyRelease(KeyEvent.VK_0 );
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_0 );
+			// robot.keyRelease(KeyEvent.VK_0 );
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_ENTER );
+			// robot.keyRelease(KeyEvent.VK_ENTER );
+			// robot.delay(55000);
+
+			// robot.keyPress(KeyEvent.VK_F2 );
+			// robot.keyRelease(KeyEvent.VK_F2 );
+			// robot.delay(6000);
+			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_P);
+			// robot.keyRelease(KeyEvent.VK_P);
+			// robot.delay(1000);
+			// robot.keyPress(KeyEvent.VK_ENTER );
+			// robot.keyRelease(KeyEvent.VK_ENTER );
+			// robot.delay(55);
+			// robot.mouseMove(50, 50);
+			// System.out.println(num);
+			// }
+			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+			// System.out.println("finish");
+		} catch (Exception e) {
+
+		}
+	}
+
+	private static void detectionCohesionAspect() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void detectionHighControlCoupledAspect() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void detectionComplicatedPointcut(String folderPath, StringBuffer fileList) {
+		// TODO Auto-generated method stub
+		try {
+			java.io.File folder = new java.io.File(folderPath);
+			String[] list = folder.list();
+			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
+				// list[0] = "ActivityController_Roo_Controller.aj";
+				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
+				// {
+				int a = 0, number = 0;
+				fileList.append(list[fileQuantity]).append(", ");
+				System.out.println(list[fileQuantity] + "\n------------------------");
+				File file = new File("smelltest/" + list[fileQuantity]);
+				Scanner scanner = new Scanner(file);
+				String data = "";
+
+				while (scanner.hasNext()) {
+					data += scanner.next() + " ";
+					number++;
+				}
+				data = data.replace("default", "0");
+				data = data.replaceAll("[0-9]+[:]", "");
+				data = data.replace(":", "\n:");
+				data = data.replace("{", ";");
+				data = data.replace(";", "\n");
+				// Pattern pattern = Pattern.compile("call[(][a-zA-Z0-9+*]*[
+				// ][a-zA-Z0-9+*]*[(]*");
+				Pattern pattern = Pattern.compile("[:]");
+				Matcher matcher = pattern.matcher(data);
+				String[] dataAll = data.split("\n");
+				data = "";
+				for (int i = 0; i < dataAll.length; i++) {
+					matcher = pattern.matcher(dataAll[i]);
+					if (matcher.find()) {
+						data += dataAll[i].replace(":", "").toString() + "\n";
+					}
+				}
+				// data = data.replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
+				String[] dataMethod = data.split("\n");
+
+				for (int i = 0; i < dataMethod.length; i++) {
+					boolean isMethod = false;
+					int levelBrackets = 0, level = 0;
+					String dataNow = "";
+					// System.out.println(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\"
+					// ,/]", ""));
+					if (!dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/ ]", "").equals("")) {
+						if (String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
+								.equals("(")
+								|| String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
+										.equals("|")
+								|| String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
+										.equals("&")) {
+							isMethod = true;
+						}
+						if (!isMethod) {
+							System.out.println("it's not need.");
+							// break;
+						} else {
+							System.out.println("Method Pattern : " + dataMethod[i]);
+							dataMethod[i] = dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
+							dataMethod[i] = dataMethod[i].replace("&&", "&");
+							dataMethod[i] = dataMethod[i].replace("||", "|");
+							// System.out.println("test of dataMethod[i]: " +
+							// dataMethod[i]);
+							do {
+								dataNow = dataMethod[i];
+								dataMethod[i] = dataMethod[i].replace("()", "");
+							} while (!dataMethod[i].equals(dataNow));
+							// System.out.println("test1: " + dataMethod[i] + "
+							// number:" + dataMethod[i].length());
+							// System.out.println("test2: " +
+							// dataMethod[i].replaceAll("[)|&]", "") + "number:"
+							// + dataMethod[i].replaceAll("[)|&]",
+							// "").length());
+							int[] levelAnd = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
+							int[] levelOr = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
+							// for(int
+							// and=0;and<dataMethod[i].replaceAll("[)|&]",
+							// "").length();and++){
+							// System.out.println("123 "+levelOr[and]);
+							// }
+							pattern = Pattern.compile("[()|&]");
+							matcher = pattern.matcher(dataMethod[i]);
+							while (matcher.find()) {
+								if (matcher.group().toString().equals("(")) {
+									levelBrackets++;
+								} else if (matcher.group().toString().equals(")")) {
+									if (levelBrackets == 0) {
+										break;
+									}
+									if (levelOr[levelBrackets] > 0) {
+										level += (levelOr[levelBrackets] + 1) * (Math.pow(2, levelBrackets));
+									}
+									if (levelAnd[levelBrackets] > 0) {
+										level += (Math.pow(2, levelAnd[levelBrackets])) * (Math.pow(2, levelBrackets));
+									}
+									levelOr[levelBrackets] = 0;
+									levelAnd[levelBrackets] = 0;
+									levelBrackets--;
+								} else if (matcher.group().toString().equals("|")) {
+									levelOr[levelBrackets]++;
+								} else if (matcher.group().toString().equals("&")) {
+									levelAnd[levelBrackets]++;
+								}
+								// System.out.println("Now Level : " + level );
+								// System.out.println("matcher:" +
+								// matcher.group().toString());
+								// System.out.println("matcher:"+matcher);
+							}
+							if (levelOr[0] > 0) {
+								level += levelOr[levelBrackets] + 1;
+							}
+							if (levelAnd[0] > 0) {
+								level += Math.pow(2, levelAnd[levelBrackets]);
+							}
+							System.out.println("Complicated Pointcut Level : " + level + "\n");
+							if (level >= 10)
+								System.out.println("it's smell.\n");
+						}
+					}
+				}
+				System.out.println("---------------\n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void detectionDispersedPointcut() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void detectionLaxPointcut(String folderPath, StringBuffer fileList) {
+		// TODO Auto-generated method stub
 		try {
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
@@ -167,191 +380,11 @@ public class main extends JFrame {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		try {
-			java.io.File folder = new java.io.File(folderPath);
-			String[] list = folder.list();
-			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
-				// list[0] = "ActivityController_Roo_Controller.aj";
-				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
-				// {
-				int a = 0, number = 0;
-				fileList.append(list[fileQuantity]).append(", ");
-				System.out.println(list[fileQuantity] + "\n------------------------");
-				File file = new File("smelltest/" + list[fileQuantity]);
-				Scanner scanner = new Scanner(file);
-				String data = "";
+	}
 
-				while (scanner.hasNext()) {
-					data += scanner.next() + " ";
-					number++;
-				}
-				data = data.replace("default", "0");
-				data = data.replaceAll("[0-9]+[:]", "");
-				data = data.replace(":", "\n:");
-				data = data.replace("{", ";");
-				data = data.replace(";", "\n");
-				// Pattern pattern = Pattern.compile("call[(][a-zA-Z0-9+*]*[
-				// ][a-zA-Z0-9+*]*[(]*");
-				Pattern pattern = Pattern.compile("[:]");
-				Matcher matcher = pattern.matcher(data);
-				String[] dataAll = data.split("\n");
-				data = "";
-				for (int i = 0; i < dataAll.length; i++) {
-					matcher = pattern.matcher(dataAll[i]);
-					if (matcher.find()) {
-						data += dataAll[i].replace(":", "").toString() + "\n";
-					}
-				}
-				// data = data.replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
-				String[] dataMethod = data.split("\n");
+	private static void aspectSoftwareData() {
+		// TODO Auto-generated method stub
 
-				for (int i = 0; i < dataMethod.length; i++) {
-					boolean isMethod = false;
-					int levelBrackets = 0, level = 0;
-					String dataNow = "";
-					// System.out.println(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\"
-					// ,/]", ""));
-					if (!dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/ ]", "").equals("")) {
-						if (String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
-								.equals("(")
-								|| String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
-										.equals("|")
-								|| String.valueOf(dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "").charAt(0))
-										.equals("&")) {
-							isMethod = true;
-						}
-						if (!isMethod) {
-							System.out.println("it's not need.");
-							// break;
-						} else {
-							System.out.println("Method Pattern : " + dataMethod[i]);
-							dataMethod[i] = dataMethod[i].replaceAll("[!@a-zA-Z0-9*+..<>\" ,/]", "");
-							dataMethod[i] = dataMethod[i].replace("&&", "&");
-							dataMethod[i] = dataMethod[i].replace("||", "|");
-							// System.out.println("test of dataMethod[i]: " +
-							// dataMethod[i]);
-							do {
-								dataNow = dataMethod[i];
-								dataMethod[i] = dataMethod[i].replace("()", "");
-							} while (!dataMethod[i].equals(dataNow));
-							// System.out.println("test1: " + dataMethod[i] + "
-							// number:" + dataMethod[i].length());
-							// System.out.println("test2: " +
-							// dataMethod[i].replaceAll("[)|&]", "") + "number:"
-							// + dataMethod[i].replaceAll("[)|&]",
-							// "").length());
-							int[] levelAnd = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
-							int[] levelOr = new int[dataMethod[i].replaceAll("[)|&]", "").length() + 1];
-							// for(int
-							// and=0;and<dataMethod[i].replaceAll("[)|&]",
-							// "").length();and++){
-							// System.out.println("123 "+levelOr[and]);
-							// }
-							pattern = Pattern.compile("[()|&]");
-							matcher = pattern.matcher(dataMethod[i]);
-							while (matcher.find()) {
-								if (matcher.group().toString().equals("(")) {
-									levelBrackets++;
-								} else if (matcher.group().toString().equals(")")) {
-									if (levelBrackets == 0) {
-										break;
-									}
-									if (levelOr[levelBrackets] > 0) {
-										level += (levelOr[levelBrackets] + 1) * (Math.pow(2, levelBrackets));
-									}
-									if (levelAnd[levelBrackets] > 0) {
-										level += (Math.pow(2, levelAnd[levelBrackets])) * (Math.pow(2, levelBrackets));
-									}
-									levelOr[levelBrackets] = 0;
-									levelAnd[levelBrackets] = 0;
-									levelBrackets--;
-								} else if (matcher.group().toString().equals("|")) {
-									levelOr[levelBrackets]++;
-								} else if (matcher.group().toString().equals("&")) {
-									levelAnd[levelBrackets]++;
-								}
-								// System.out.println("Now Level : " + level );
-								// System.out.println("matcher:" +
-								// matcher.group().toString());
-								// System.out.println("matcher:"+matcher);
-							}
-							if (levelOr[0] > 0) {
-								level += levelOr[levelBrackets] + 1;
-							}
-							if (levelAnd[0] > 0) {
-								level += Math.pow(2, levelAnd[levelBrackets]);
-							}
-							System.out.println("Complicated Pointcut Level : " + level + "\n");
-							if (level >= 10)
-								System.out.println("it's smell.\n");
-						}
-					}
-				}
-				System.out.println("---------------\n");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		user("test1", "test");
-		cc(0);
-		ccc(0);
-
-		// main frame = new main();
-		// frame.setTitle("KeyEventDemo");
-		// frame.setSize(500, 500);
-		// frame.setLocationRelativeTo(null);
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.setVisible(true);
-
-		try {
-			// Robot robot = new Robot();
-			// robot.delay(5000);
-			// for (int num = 0; num < 400; num++) {
-			// robot.delay(10000);
-			// robot.keyPress(KeyEvent.VK_0);
-			// robot.keyRelease(KeyEvent.VK_0);
-			// robot.delay(5000);
-			// robot.keyPress(KeyEvent.VK_ENTER );
-			// robot.keyRelease(KeyEvent.VK_ENTER );
-			// robot.delay(1000);
-
-			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_5 );
-			// robot.keyRelease(KeyEvent.VK_5 );
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_0 );
-			// robot.keyRelease(KeyEvent.VK_0 );
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_0 );
-			// robot.keyRelease(KeyEvent.VK_0 );
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_ENTER );
-			// robot.keyRelease(KeyEvent.VK_ENTER );
-			// robot.delay(55000);
-
-			// robot.keyPress(KeyEvent.VK_F2 );
-			// robot.keyRelease(KeyEvent.VK_F2 );
-			// robot.delay(6000);
-			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_P);
-			// robot.keyRelease(KeyEvent.VK_P);
-			// robot.delay(1000);
-			// robot.keyPress(KeyEvent.VK_ENTER );
-			// robot.keyRelease(KeyEvent.VK_ENTER );
-			// robot.delay(55);
-			// robot.mouseMove(50, 50);
-			// System.out.println(num);
-			// }
-			// robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-			// robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-			// System.out.println("finish");
-		} catch (Exception e) {
-
-		}
 	}
 
 	private static int cc(int cc) {

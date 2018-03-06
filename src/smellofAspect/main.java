@@ -34,16 +34,15 @@ public class main extends JFrame {
 		// TODO Auto-generated method stub
 		String folderPath = "smelltest/";
 		StringBuffer fileList = new StringBuffer();
-		detectionLaxPointcut(folderPath, fileList);
+//		detectionLaxPointcut(folderPath, fileList);
 		detectionDispersedPointcut();
 		detectionComplicatedPointcut(folderPath, fileList);
 		detectionHighControlCoupledAspect();
 		detectionCohesionAspect();
 
-		user("test1", "test");
+//		user("test1", "test");
 		cc(0);
 		ccc(0);
-
 		// main frame = new main();
 		// frame.setTitle("KeyEventDemo");
 		// frame.setSize(500, 500);
@@ -115,6 +114,7 @@ public class main extends JFrame {
 	private static void detectionComplicatedPointcut(String folderPath, StringBuffer fileList) {
 		// TODO Auto-generated method stub
 		try {
+			int smellsN=0;
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
 			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
@@ -133,6 +133,8 @@ public class main extends JFrame {
 					number++;
 				}
 				data = data.replace("default", "0");
+				data = data.replaceAll("declare .* ", "0");//remove,such as "declare * "
+//				data = data.replaceAll("\".*\"", "0");//remove,such as " " "
 				data = data.replaceAll("[0-9]+[:]", "");
 				data = data.replace(":", "\n:");
 				data = data.replace("{", ";");
@@ -229,13 +231,16 @@ public class main extends JFrame {
 								level += Math.pow(2, levelAnd[levelBrackets]);
 							}
 							System.out.println("Complicated Pointcut Level : " + level + "\n");
-							if (level >= 10)
-								System.out.println("it's smell.\n");
+							if (level >= 3){
+								System.out.println("it's smell. "+smellsN+++"\n");
+//								smellsN++;
+							}
 						}
 					}
 				}
 				System.out.println("---------------\n");
 			}
+			System.out.println("smells = "+smellsN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -251,6 +256,7 @@ public class main extends JFrame {
 		try {
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
+			int smells50=0,smells60=0,smells70=0,smells80=0,smells90=0,smells100=0;
 			// list[0] = "aspectD.aj";
 			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
 				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
@@ -270,12 +276,15 @@ public class main extends JFrame {
 						"synchronized", "transient", "volatile", "strictfp", "!public", "!protected", "!private",
 						"!static", "!abstract", "!final", "!native", "!synchronized", "!transient", "!volatile",
 						"!strictfp" };
+				data = data.replaceAll("[@][\\S]{0,99}[\\s]", "");
 				data = data.replace("execution(", "call(");
 				data = data.replace("execution (", "call(");
 				data = data.replace("withincode(", "call(");
 				data = data.replace("withincode (", "call(");
 				data = data.replace("call (", "call(");
 				data = data.replace("call(", "\ncall(");
+				data = data.replace("( ", "(");
+				data = data.replace("!", "");
 				data = data.replace(")", ")\n");
 				for (int m = 0; m < javaModifier.length; m++) {
 					data = data.replace("call(" + javaModifier[m] + " ", "call(");
@@ -347,9 +356,29 @@ public class main extends JFrame {
 						q++;
 					}
 					System.out.println("level=" + (level + typeLevel) + "%");
+					if(level+typeLevel>=50)
+						System.out.println("It's smells.");
+					if(level+typeLevel>=100)
+						smells100++;
+					else if(level+typeLevel>=90)
+						smells90++;
+					else if(level+typeLevel>=80)
+						smells80++;
+					else if(level+typeLevel>=70)
+						smells70++;
+					else if(level+typeLevel>=60)
+						smells60++;
+					else if(level+typeLevel>=50)
+						smells50++;
 				}
 				System.out.println("---------------\n");
 			}
+			System.out.println("Level>=50:::"+smells50);
+			System.out.println("Level>=60:::"+smells60);
+			System.out.println("Level>=70:::"+smells70);
+			System.out.println("Level>=80:::"+smells80);
+			System.out.println("Level>=90:::"+smells90);
+			System.out.println("Level>=100:::"+smells100);
 			// while (matcher.find()) {
 			// System.out.print(matcher.group() + "\n");
 			// System.out.print(matcher);

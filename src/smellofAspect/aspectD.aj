@@ -15,7 +15,7 @@ public aspect aspectD {
 
 	pointcut pointTest():call(void test1());
 	
-
+//	declare warning :(get(* System.out)): "err";
 	int a = 0;
 
 	pointcut testHandler():handler(*);
@@ -25,9 +25,9 @@ public aspect aspectD {
 	}
 
 	before():ccc1(){
-		test1();
-//		System.out.println("ccc1");
-
+//		test1();
+		System.out.println("ccc1");
+		System.err.println("err1");
 	}
 
 	after():pointTest(){

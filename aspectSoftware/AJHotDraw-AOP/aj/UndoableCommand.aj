@@ -86,7 +86,8 @@ public aspect UndoableCommand /*perthis(this(Command))*/ {
 		AbstractCommand command = (AbstractCommand)thisJoinPoint.getTarget();
 		
 		command.hasSelectionChanged = true;
-		proceed(/*command,*/ drawingView);
+		
+		proceed(drawingView);
 	}
 
 //	-----------------------------

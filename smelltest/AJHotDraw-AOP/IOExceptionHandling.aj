@@ -6,16 +6,7 @@ import org.jhotdraw.util.Storable;
 
 import java.io.IOException;
 
-/**
- * Handling of the IOExceptions in the persistence mechanism:
- * StorableInput, and Sotrable.read(..)
- * 
- * 
- * @author Marius Marin
- */
 public aspect IOExceptionHandling {
-
-//	declare precedence : IOExceptionHandling, Persistent*;
 	
 	pointcut persistenceSupportFigures() : 
 		call(String StorableInput.readString() throws IOException) ||

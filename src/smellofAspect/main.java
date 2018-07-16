@@ -32,17 +32,17 @@ public class main extends JFrame {
 
 	public static void main(String args[]) throws IOException {
 		// TODO Auto-generated method stub
-		String folderPath = "smelltest/";
+		String folderPath = "smelltest/scalac-aspects-master/";
 		StringBuffer fileList = new StringBuffer();
-//		detectionLaxPointcut(folderPath, fileList);
+		detectionLaxPointcut(folderPath, fileList);
 		detectionDispersedPointcut();
 		detectionComplicatedPointcut(folderPath, fileList);
 		detectionHighControlCoupledAspect();
 		detectionCohesionAspect();
-
+		
 //		user("test1", "test");
-		cc(0);
-		ccc(0);
+//		cc(0);
+//		ccc(0);
 		// main frame = new main();
 		// frame.setTitle("KeyEventDemo");
 		// frame.setSize(500, 500);
@@ -124,7 +124,7 @@ public class main extends JFrame {
 				int a = 0, number = 0;
 				fileList.append(list[fileQuantity]).append(", ");
 				System.out.println(list[fileQuantity] + "\n------------------------");
-				File file = new File("smelltest/" + list[fileQuantity]);
+				File file = new File(folderPath + list[fileQuantity]);
 				Scanner scanner = new Scanner(file);
 				String data = "";
 
@@ -225,13 +225,13 @@ public class main extends JFrame {
 								// System.out.println("matcher:"+matcher);
 							}
 							if (levelOr[0] > 0) {
-								level += levelOr[levelBrackets] + 1;
+								level += levelOr[levelBrackets] *2;
 							}
 							if (levelAnd[0] > 0) {
 								level += Math.pow(2, levelAnd[levelBrackets]);
 							}
 							System.out.println("Complicated Pointcut Level : " + level + "\n");
-							if (level >= 3){
+							if (level >= 10){
 								System.out.println("it's smell. "+smellsN+++"\n");
 //								smellsN++;
 							}
@@ -256,7 +256,7 @@ public class main extends JFrame {
 		try {
 			java.io.File folder = new java.io.File(folderPath);
 			String[] list = folder.list();
-			int smells50=0,smells60=0,smells70=0,smells80=0,smells90=0,smells100=0;
+			int smells00=0, smells10=0,smells20=0,smells30=0,smells40=0,smells50=0,smells60=0,smells70=0,smells80=0,smells90=0,smells100=0;
 			// list[0] = "aspectD.aj";
 			for (int fileQuantity = 0; fileQuantity < list.length; fileQuantity++) {
 				// for (int fileQuantity = 0; fileQuantity < 1; fileQuantity++)
@@ -264,7 +264,7 @@ public class main extends JFrame {
 				int a = 0, number = 0;
 				fileList.append(list[fileQuantity]).append(", ");
 				System.out.println(list[fileQuantity] + "\n------------------------");
-				File file = new File("smelltest/" + list[fileQuantity]);
+				File file = new File(folderPath + list[fileQuantity]);
 				Scanner scanner = new Scanner(file);
 				String data = "";
 
@@ -370,9 +370,24 @@ public class main extends JFrame {
 						smells60++;
 					else if(level+typeLevel>=50)
 						smells50++;
+					else if(level+typeLevel>=40)
+						smells40++;
+					else if(level+typeLevel>=30)
+						smells30++;
+					else if(level+typeLevel>=20)
+						smells20++;
+					else if(level+typeLevel>=10)
+						smells10++;
+					else if(level+typeLevel>=0)
+						smells00++;
 				}
 				System.out.println("---------------\n");
 			}
+			System.out.println("Level>=00:::"+smells00);
+			System.out.println("Level>=10:::"+smells10);
+			System.out.println("Level>=20:::"+smells20);
+			System.out.println("Level>=30:::"+smells30);
+			System.out.println("Level>=40:::"+smells40);
 			System.out.println("Level>=50:::"+smells50);
 			System.out.println("Level>=60:::"+smells60);
 			System.out.println("Level>=70:::"+smells70);
